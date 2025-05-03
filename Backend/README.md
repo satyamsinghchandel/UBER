@@ -131,6 +131,8 @@ Send a JSON object with the following structure:
   "token": "JWT"
 
 }
+```
+
 ### Success
 
 - **200 OK**
@@ -175,6 +177,113 @@ Send a JSON object with the following structure:
     ```json
     {
       "message": "Invalid Email or Password"
+    }
+    ```
+
+### Other Errors
+
+- **500 Internal Server Error**
+  - Returns a JSON object with an error message if something goes wrong on the server.
+
+---
+
+# User Profile API
+
+## Endpoint
+
+`GET /users/profile`
+
+## Description
+
+Returns the authenticated user's profile information. Requires a valid JWT token in the request (as a cookie or in the `Authorization` header).
+
+## Request
+
+- **Headers:**  
+  - `Authorization: Bearer <JWT_TOKEN>` (if not using cookies)
+
+## Responses
+```json
+{
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+  "email": "john.doe@example.com",
+  "password": "yourpassword"  
+
+  },
+  "token": "JWT"
+
+}
+```
+
+### Success
+
+- **200 OK**
+  - Returns a JSON object with the user's profile data.
+  - Example:
+    ```json
+    {
+      "_id": "user_id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com"
+    }
+    ```
+
+### Authentication Error
+
+- **401 Unauthorized**
+  - Returns a JSON object if the token is missing or invalid.
+  - Example:
+    ```json
+    {
+      "message": "Authentication required"
+    }
+    ```
+
+---
+
+# User Logout API
+
+## Endpoint
+
+`GET /users/logout`
+
+## Description
+
+Logs out the authenticated user by blacklisting the JWT token and clearing the authentication cookie. Requires a valid JWT token in the request (as a cookie or in the `Authorization` header).
+
+## Request
+
+- **Headers:**  
+  - `Authorization: Bearer <JWT_TOKEN>` (if not using cookies)
+
+## Responses
+
+### Success
+
+- **200 OK**
+  - Returns a JSON object confirming logout.
+  - Example:
+    ```json
+    {
+      "message": "Logged out"
+    }
+    ```
+
+### Authentication Error
+
+- **401 Unauthorized**
+  - Returns a JSON object if the token is missing or invalid.
+  - Example:
+    ```json
+    {
+      "message": "Authentication required"
     }
     ```
 
