@@ -294,4 +294,115 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the a
 
 ---
 
-For more details, see the implementation in [routes/user.routes.js](routes/user.routes.js), [controllers/user.controller.js](controllers/user.controller.js), and [Services/user.services.js](Services/user.services.js).
+# Captain Registration API
+
+## Endpoint
+
+`POST /captain/register`
+
+## Description
+
+Registers a new captain (driver) in the system. The endpoint validates the input, hashes the password, creates a captain, and returns the captain data.
+
+## Request Body
+
+Send a JSON object with the following structure:
+
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "email": "jane.smith@example.com",
+  "password": "yourpassword",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC1234",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Field Requirements
+
+- `fullname.firstname`: string, required, minimum 3 characters
+- `fullname.lastname`: string, required, minimum 3 characters
+- `email`: string, required, must be a valid email
+- `password`: string, required, minimum 6 characters
+- `vehicle.color`: string, required, minimum 3 characters
+- `vehicle.plate`: string, required, minimum 5 characters
+- `vehicle.capacity`: integer, required, minimum 1
+- `vehicle.vehicleType`: string, required, one of `"car"`, `"motorcycle"`, `"auto"`
+
+## Responses
+```json
+{
+
+  {
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDYzNDE1OTMsImV4cCI6MTc0NjQyNzk5M30.pW2tPjN5-fLv9f8rT8WVQCXDfLSCDlRVI3UmVq6Rz_M"
+  }
+  {
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Smith"
+    },
+    "email": "jane.smith@example.com",
+    "password": "yourpassword",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC1234",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+### Success
+
+- **201 Created**
+  - Returns a JSON object containing the created captain object.
+  - Example:
+    ```json
+    {
+      "_id": "captain_id",
+      "fullname": {
+        "firstname": "Jane",
+        "lastname": "Smith"
+      },
+      "email": "jane.smith@example.com",
+      "vehicle": {
+        "color": "Red",
+        "plate": "ABC1234",
+        "capacity": 4,
+        "vehicleType": "car"
+      }
+    }
+    ```
+
+### Validation Error
+
+- **400 Bad Request**
+  - Returns a JSON object with an `errors` array describing validation issues.
+  - Example:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid Email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+### Other Errors
+
+- **500 Internal Server Error**
+  - Returns a JSON object with an error message if something goes wrong on the server.
+
+---
+
+For more details, see the implementation in [routes/captain.routes.js](routes/captain.routes.js), [controllers/captain.controller.js](controllers/captain.controller.js), and [Services/captain.services.js](Services/captain.services.js).
