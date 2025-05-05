@@ -1,231 +1,37 @@
-# User Registration API
+# User APIs Documentation
 
-## Endpoint
-
-`POST /users/register`
-
-## Description
-
-Registers a new user in the system. The endpoint validates the input, hashes the password, creates a user, and returns a JWT token along with the user data.
-
-## Request Body
-
-Send a JSON object with the following structure:
-
-```json
-{
-  "fullname": {
-    "firstname": "John",
-    "lastname": "Doe"
-  },
-  "email": "john.doe@example.com",
-  "password": "yourpassword"
-}
-```
-
-### Field Requirements
-
-- `fullname.firstname`: string, required, minimum 3 characters
-- `fullname.lastname`: string, optional, minimum 3 characters if provided
-- `email`: string, required, must be a valid email
-- `password`: string, required, minimum 3 characters
-
-## Responses
-```json
-{
-  "user": {
-    "fullname": {
-      "firstname": "John",
-      "lastname": "Doe"
-    },
-  "email": "john.doe@example.com",
-  "password": "yourpassword"  
-
-  },
-  "token": "JWT"
-
-}
-```
-
-### Success
-
-- **201 Created**
-  - Returns a JSON object containing a JWT token and the created user object.
-  - Example:
-    ```json
-    {
-      "token": "jwt_token_here",
-      "user": {
-        "_id": "user_id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com"
-      }
-    }
-    ```
-
-### Validation Error
-
-- **400 Bad Request**
-  - Returns a JSON object with an `errors` array describing validation issues.
-  - Example:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Invalid Email",
-          "param": "email",
-          "location": "body"
-        }
-      ]
-    }
-    ```
-
-### Other Errors
-
-- **500 Internal Server Error**
-  - Returns a JSON object with an error message if something goes wrong on the server.
+This document details the endpoints for user operations, including registration, login, profile retrieval, and logout.
 
 ---
 
-# User Login API
+## User Registration
 
-## Endpoint
+- **Endpoint:** `POST /users/register`
+- **Description:** Registers a new user in the system by validating inputs, hashing the password, storing user data, and returning a JWT token.
+- **Request Body:**
 
-`POST /users/login`
-
-## Description
-
-Authenticates a user with email and password. Returns a JWT token and user details if credentials are valid.
-
-## Request Body
-
-Send a JSON object with the following structure:
-
-```json
-{
-  "email": "john.doe@example.com",
-  "password": "yourpassword"
-}
-```
-
-### Field Requirements
-
-- `email`: string, required, must be a valid email
-- `password`: string, required, minimum 6 characters
-
-## Responses
-```json
-{
-  "user": {
+  ```json
+  {
     "fullname": {
       "firstname": "John",
       "lastname": "Doe"
     },
-  "email": "john.doe@example.com",
-  "password": "yourpassword"  
+    "email": "john.doe@example.com",
+    "password": "yourpassword"
+  }
+  ```
 
-  },
-  "token": "JWT"
+- **Field Requirements:**
+  - `fullname.firstname`: string, required, minimum 3 characters.
+  - `fullname.lastname`: string, optional, minimum 3 characters if provided.
+  - `email`: string, required, must be a valid email.
+  - `password`: string, required, minimum 3 characters.
+- **Success Response (201 Created):**
 
-}
-```
-
-### Success
-
-- **200 OK**
-  - Returns a JSON object containing a JWT token and the user object.
-  - Example:
-    ```json
-    {
-      "token": "jwt_token_here",
-      "user": {
-        "_id": "user_id",
-        "fullname": {
-          "firstname": "John",
-          "lastname": "Doe"
-        },
-        "email": "john.doe@example.com"
-      }
-    }
-    ```
-
-### Validation Error
-
-- **400 Bad Request**
-  - Returns a JSON object with an `errors` array describing validation issues.
-  - Example:
-    ```json
-    {
-      "errors": [
-        {
-          "msg": "Invalid Email",
-          "param": "email",
-          "location": "body"
-        }
-      ]
-    }
-    ```
-
-### Authentication Error
-
-- **401 Unauthorized**
-  - Returns a JSON object with a message if the email or password is incorrect.
-  - Example:
-    ```json
-    {
-      "message": "Invalid Email or Password"
-    }
-    ```
-
-### Other Errors
-
-- **500 Internal Server Error**
-  - Returns a JSON object with an error message if something goes wrong on the server.
-
----
-
-# User Profile API
-
-## Endpoint
-
-`GET /users/profile`
-
-## Description
-
-Returns the authenticated user's profile information. Requires a valid JWT token in the request (as a cookie or in the `Authorization` header).
-
-## Request
-
-- **Headers:**  
-  - `Authorization: Bearer <JWT_TOKEN>` (if not using cookies)
-
-## Responses
-```json
-{
-  "user": {
-    "fullname": {
-      "firstname": "John",
-      "lastname": "Doe"
-    },
-  "email": "john.doe@example.com",
-  "password": "yourpassword"  
-
-  },
-  "token": "JWT"
-
-}
-```
-
-### Success
-
-- **200 OK**
-  - Returns a JSON object with the user's profile data.
-  - Example:
-    ```json
-    {
+  ```json
+  {
+    "token": "jwt_token_here",
+    "user": {
       "_id": "user_id",
       "fullname": {
         "firstname": "John",
@@ -233,64 +39,131 @@ Returns the authenticated user's profile information. Requires a valid JWT token
       },
       "email": "john.doe@example.com"
     }
-    ```
+  }
+  ```
 
-### Authentication Error
+- **Validation Error (400 Bad Request):**
 
-- **401 Unauthorized**
-  - Returns a JSON object if the token is missing or invalid.
-  - Example:
-    ```json
-    {
-      "message": "Authentication required"
-    }
-    ```
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid Email",
+        "param": "email",
+        "location": "body"
+      }
+    ]
+  }
+  ```
 
 ---
 
-# User Logout API
+## User Login
 
-## Endpoint
+- **Endpoint:** `POST /users/login`
+- **Description:** Authenticates a user with email and password. Returns a JWT token and user details if credentials are valid.
+- **Request Body:**
 
-`GET /users/logout`
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "yourpassword"
+  }
+  ```
 
-## Description
+- **Field Requirements:**
+  - `email`: string, required, must be a valid email.
+  - `password`: string, required, minimum 6 characters.
+- **Success Response (200 OK):**
 
-Logs out the authenticated user by blacklisting the JWT token and clearing the authentication cookie. Requires a valid JWT token in the request (as a cookie or in the `Authorization` header).
-
-## Request
-
-- **Headers:**  
-  - `Authorization: Bearer <JWT_TOKEN>` (if not using cookies)
-
-## Responses
-
-### Success
-
-- **200 OK**
-  - Returns a JSON object confirming logout.
-  - Example:
-    ```json
-    {
-      "message": "Logged out"
+  ```json
+  {
+    "token": "jwt_token_here",
+    "user": {
+      "_id": "user_id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com"
     }
-    ```
+  }
+  ```
 
-### Authentication Error
+- **Validation Error (400 Bad Request):**
 
-- **401 Unauthorized**
-  - Returns a JSON object if the token is missing or invalid.
-  - Example:
-    ```json
-    {
-      "message": "Authentication required"
-    }
-    ```
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid Email",
+        "param": "email",
+        "location": "body"
+      }
+    ]
+  }
+  ```
 
-### Other Errors
+- **Authentication Error (401 Unauthorized):**
 
-- **500 Internal Server Error**
-  - Returns a JSON object with an error message if something goes wrong on the server.
+  ```json
+  {
+    "message": "Invalid Email or Password"
+  }
+  ```
+
+---
+
+## User Profile
+
+- **Endpoint:** `GET /users/profile`
+- **Description:** Retrieves the profile information for the authenticated user. Requires a valid JWT token (passed as a cookie or in the `Authorization` header).
+- **Request Headers:**
+  - `Authorization: Bearer <JWT_TOKEN>` or use cookies.
+- **Success Response (200 OK):**
+
+  ```json
+  {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+  ```
+
+- **Authentication Error (401 Unauthorized):**
+
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+---
+
+## User Logout
+
+- **Endpoint:** `GET /users/logout`
+- **Description:** Logs out the user by blacklisting the JWT token and clearing the authentication cookie.
+- **Request Headers:**
+  - `Authorization: Bearer <JWT_TOKEN>` or use cookies.
+- **Success Response (200 OK):**
+
+  ```json
+  {
+    "message": "Logged out"
+  }
+  ```
+
+- **Authentication Error (401 Unauthorized):**
+
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
 
 ---
 
@@ -298,7 +171,7 @@ Logs out the authenticated user by blacklisting the JWT token and clearing the a
 
 ## Endpoint
 
-`POST /captain/register`
+`POST /captains/register`
 
 ## Description
 
