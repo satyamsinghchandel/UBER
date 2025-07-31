@@ -1,10 +1,12 @@
 const http = require('http');
 const app = require('./app');
 const port = process.env.PORT || 3000;
+// Import and initialize socket
+const { initializeSocket } = require('./socket');
 
-// Creating a server
 const server = http.createServer(app);
 
+initializeSocket(server);
 
 
 server.listen(port, ()=>{
