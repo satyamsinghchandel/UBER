@@ -9,7 +9,7 @@ import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
-import { SocketContext } from "../context/SocketContext";
+import { SocketContext } from "../Context/SocketContext";
 import { UserDataContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
