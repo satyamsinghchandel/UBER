@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useContext } from "react";
-import { SocketContext } from "../Context/SocketContext";
+import { SocketContext } from "../Context/SocketContext.jsx";
 import { useNavigate } from "react-router-dom";
-import LiveTracking from "../components/LiveTracking";
+import LiveTracking from "../Components/LiveTracking.jsx";
 
 const Riding = () => {
   const location = useLocation();
