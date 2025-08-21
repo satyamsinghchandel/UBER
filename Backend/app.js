@@ -17,11 +17,10 @@ connnectToDb();
 
 // ✅ CORS setup for production frontend
 const corsOptions = {
-    origin: "https://your-frontend.vercel.app", // replace with your Vercel URL
-    methods: ["GET","POST","PUT","DELETE"],
-    credentials: true // allow cookies/auth headers
+  origin: "https://uber-beige-two.vercel.app", // your Vercel frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 };
-
 app.use(cors(corsOptions));
 
 app.use(express.json());
