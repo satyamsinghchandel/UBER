@@ -10,7 +10,7 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
-import { userDataContext } from "../Context/userContext";
+import { UserDataContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
 import { set } from "mongoose";
@@ -41,7 +41,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { sendMessage, onMessage, socket } = useContext(SocketContext);
-  const { user } = useContext(userDataContext);
+  const { user } = useContext(UserDataContext);
 
   useEffect(() => {
     if (!user || !user._id) return;
