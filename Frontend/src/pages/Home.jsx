@@ -13,6 +13,7 @@ import { SocketContext } from "../context/SocketContext";
 import { userDataContext } from "../Context/userContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
+import { set } from "mongoose";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -34,6 +35,8 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState({});
   const [ride, setRide] = useState(null);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -176,7 +179,7 @@ const Home = () => {
   async function findTrip() {
     setPanelOpen(false);
     setVehiclePanel(true);
-
+    setIsInputFocused(false);
     const response = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
       {
@@ -214,26 +217,29 @@ const Home = () => {
   return (
     <div className="h-screen relative overflow-hidden">
       <img
-        className="w-16 absolute left-5 top-5  "
+        className="w-16 absolute left-5 top-5 z-20 "
         src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
         alt=""
       />
       <Link
         to="/logout"
         
-        className="absolute right-5 top-5  bg-white w-8 h-8 flex justify-center items-center rounded-2xl"
+        className="absolute right-5 top-5  bg-white w-8 h-8 flex justify-center items-center rounded-2xl z-20"
       >
-        <i className=" text-xl font-medium ri-logout-box-r-line "></i>
+        <i className=" text-xl font-medium ri-logout-box-r-line  "></i>
       </Link>
 
-      <div className="h-[70%] absolute w-screen  -z-20">
+      <div className="h-[70%] absolute w-screen z-10 ">
         <LiveTracking />
       </div>
-      <div className="absolute h-full flex flex-col justify-end bottom-0 w-full  ">
-        <div className="h-[30%] bg-white p-5 relative">
+      <div className={`absolute h-full flex flex-col justify-end bottom-0 w-full transition-all ${
+      isInputFocused ? "z-30" : "z-0"
+    }`}>
+        <div className="h-[30%] bg-white p-5  relative">
           <h5
             onClick={() => {
               setPanelOpen(false);
+              setIsInputFocused(false);
             }}
             ref={panelCloseRef}
             className="absolute opacity-0 top-6 right-6 text-2xl"
@@ -251,6 +257,7 @@ const Home = () => {
               onClick={() => {
                 setPanelOpen(true);
                 setActiveField("pickup");
+                setIsInputFocused(true);
               }}
               value={pickup}
               onChange={(e) => {
@@ -266,6 +273,7 @@ const Home = () => {
               onClick={() => {
                 setPanelOpen(true);
                 setActiveField("destination");
+                setIsInputFocused(true);
               }}
               value={destination}
               onChange={(e) => {
