@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import FinishRide from '../components/FinishRide.js';
+import FinishRide from './FinishRide.js';
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import LiveTracking from '../components/LiveTracking.js';
+import LiveTracking from './LiveTracking.js';
 
 const CaptainRiding = () => {
   const [finishRidePanel, setFinishRidePanel] = useState(false)

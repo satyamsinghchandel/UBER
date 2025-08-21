@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
-import LocationSearchPanel from "../Components/LocationSearchPanel.jsx";
+import LocationSearchPanel from "../components/LocationSearchPanel.js";
 import axios from "axios";
-import VehiclePanel from "../Components/VehiclePanel.jsx";
-import ConfirmRide from "../Components/ConfirmRide.jsx";
-import LookingForDriver from "../Components/LookingForDriver.jsx";
-import WaitingForDriver from "../Components/WaitingForDriver.jsx";
-import { SocketContext } from "../Context/SocketContext.jsx";
-import { UserDataContext } from "../Context/UserContext.jsx";
+import VehiclePanel from "../components/VehiclePanel.jsx";
+import ConfirmRide from "../components/ConfirmRide.js";
+import LookingForDriver from "../components/LookingForDriver.js";
+import WaitingForDriver from "../components/WaitingForDriver.jsx";
+import { SocketContext } from "../context/SocketContext.jsx";
+import { UserDataContext } from "../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
-import LiveTracking from "../Components/LiveTracking.jsx";
+import LiveTracking from "../components/LiveTracking.js";
 
 
 const Home = () => {
